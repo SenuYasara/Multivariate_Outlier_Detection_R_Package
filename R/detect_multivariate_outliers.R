@@ -6,7 +6,7 @@
 #' @param method "mahalanobis", "mcd", or "pca"
 #' @param alpha Significance level (default = 0.975)
 #'
-#' @return Data frame with squared distances and outlier flags
+#' @return Data frame with distances and outlier flags
 #' @importFrom stats cov prcomp qchisq
 #' @export
 detect_multivariate_outliers <- function(data, method = "mahalanobis", alpha = 0.975) {
@@ -65,7 +65,7 @@ detect_multivariate_outliers <- function(data, method = "mahalanobis", alpha = 0
   }
 
   outlier_flag <- distances > cutoff
-  result <- cbind(data, Squared_Distance = distances, Outlier = outlier_flag)
+  result <- cbind(data, Distance = distances, Outlier = outlier_flag)
 
   return(as.data.frame(result))
 }
