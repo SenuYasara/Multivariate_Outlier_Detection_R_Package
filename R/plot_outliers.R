@@ -8,6 +8,7 @@
 #' @param alpha The quantile cutoff for identifying outliers (default 0.975).
 #'
 #' @importFrom plotly plot_ly
+#' @importFrom dplyr %>%
 #' @export
 plot_outliers <- function(data, method = "mahalanobis", alpha = 0.975) {
   if (!requireNamespace("plotly", quietly = TRUE)) {
