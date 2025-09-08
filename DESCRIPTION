@@ -1,9 +1,12 @@
 Package: MOutliers
-Title: What the Package Does (One Line, Title Case)
+Title: Multivariate Outlier Detection Methods
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+    person("Senuri", "Yasara", , "first.last@example.com", role = c("aut", "cre"))
+Description: Provides tools for detecting multivariate outliers in numeric datasets using 
+Mahalanobis distance, robust Minimum Covariance Determinant (MCD), and Principal Component 
+Analysis (PCA)-based methods. The Mahalanobis distance calculations are performed using an 
+efficient C++ backend via Rcpp.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -15,7 +18,10 @@ Imports:
     stats,
     MASS,
     dplyr,
-    plotly
+    plotly,
+    ggplot2,
+    gridExtra,
+    cowplot
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
