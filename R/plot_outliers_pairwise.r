@@ -10,6 +10,7 @@
 #' @import ggplot2
 #' @importFrom gridExtra grid.arrange
 #' @importFrom cowplot get_legend
+#' @importFrom rlang .data
 #' @export
 plot_outliers_pairwise <- function(data, method = c("mahalanobis", "mcd"), alpha = 0.975) {
   method <- match.arg(method)
@@ -21,6 +22,8 @@ plot_outliers_pairwise <- function(data, method = c("mahalanobis", "mcd"), alpha
 
   # check NA
   if (anyNA(data)) stop("Dataset cannot contain missing values.")
+
+  if (ncol(data) < 2) stop("Need at least two numeric columns.")
 
   p <- ncol(data)
   plots <- list()
@@ -56,7 +59,7 @@ plot_outliers_pairwise <- function(data, method = c("mahalanobis", "mcd"), alpha
         outlier = factor(is_outlier)
       )
 
-      p1 <- ggplot(plot_data, aes(x = x, y = y, color = outlier)) +
+      p1 <- ggplot(plot_data, aes(x = .data$x, y = .data$y, color = .data$outlier)) +
         geom_point() +
         labs(
           title = paste0("Vars: ", names(data)[i], " vs ", names(data)[j]),
