@@ -14,8 +14,6 @@ Imports:
     Rcpp,
     stats,
     MASS,
-    dplyr,
-    plotly,
     ggplot2,
     gridExtra,
     cowplot,
