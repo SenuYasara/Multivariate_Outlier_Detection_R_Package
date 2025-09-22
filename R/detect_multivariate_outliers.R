@@ -1,14 +1,54 @@
 #' Detect Multivariate Outliers
 #'
-#' Detects multivariate outliers using Mahalanobis, MCD, or PCA-based distances.
+#' Detects multivariate outliers using Mahalanobis, Minimum Covariance Determinant(MCD), or PCA-based distances.
+#' This function supports robust statistical detection by computing distance scores for each observation and comparing them against a chi-squared cutoff at a specified significance level.
+#' It is useful for identifying outliers in high-dimensional continuous data.
 #'
 #' @param data A numeric data frame or matrix.
-#' @param method "mahalanobis", "mcd", or "pca"
+#' @param method Outlier detection method: "mahalanobis", "mcd", or "pca"
 #' @param alpha Significance level (default = 0.975)
 #'
-#' @return Data frame with distances and outlier flags
+#' @return A data frame combining the original input data with distances and outlier flags
 #' @importFrom stats cov prcomp qchisq
 #' @export
+#' @examples
+#' # 1: Simulated Data
+#' set.seed(123)
+#' df <- data.frame(x = c(rnorm(50), 6),y = c(rnorm(50), 6))
+#'
+#' ## Mahalanobis Distance
+#' result_mahal <- detect_multivariate_outliers(df, method = "mahalanobis", alpha = 0.975)
+#' head(result_mahal)
+#'
+#' ## Minimum Covariance Determinant (MCD)
+#'result_mcd <- detect_multivariate_outliers(df, method = "mcd", alpha = 0.975)
+#'head(result_mcd)
+#'
+#'## Principal Component Analysis (PCA)
+#'result_pca <- detect_multivariate_outliers(df, method = "pca", alpha = 0.975)
+#'head(result_pca)
+#'
+#' # 2: Existing Dataset (mtcars)
+#' df_mtcars <- mtcars[, c("mpg", "hp", "wt" )]
+#' head(df_mtcars)
+#'
+#'## Mahalanobis Distance
+#' result_mahal <- detect_multivariate_outliers(df_mtcars, method = "mahalanobis")
+#' head(result_mahal)
+#'
+#' ## Minimum Covariance Determinant (MCD)
+#' result_mcd <- detect_multivariate_outliers(df_mtcars, method = "mcd")
+#' head(result_mcd)
+#'
+#'## Principal Component Analysis (PCA)
+#'result_pca <- detect_multivariate_outliers(df_mtcars, method = "pca")
+#'head(result_pca)
+#'
+#' # View outliers
+#' result_mahal[result_mahal$Outlier == TRUE, ]
+#' result_mcd[result_mcd$Outlier == TRUE, ]
+#' result_pca[result_pca$Outlier == TRUE, ]
+
 detect_multivariate_outliers <- function(data, method = "mahalanobis", alpha = 0.975) {
   # must be numeric
   if (!all(sapply(data, is.numeric))) {
