@@ -1,0 +1,115 @@
+---
+title: "Multivariate Outlier Detection"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{my-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(MOutliers)
+```
+
+## Introduction
+
+Outliers are unusual data points that are different from the rest of the data. It is important to detect these outliers because they have an effect on data analysis, models, and conclusions.
+
+MOutliers package provides tools to detect and visualize multivariate outliers using robust statistical methods:
+
+### 1. detect_multivariate_outliers()
+
+Detects outliers based on:
+
+-   Mahalanobis distance
+
+-   Minimum Covariance Determinant (MCD)
+
+-   Principal Component Analysis (PCA)
+
+## Detecting Outliers
+
+#### Example 1: Simulated Data
+
+```{r}
+set.seed(123)
+df <- data.frame(
+  x = c(rnorm(50), 6),
+  y = c(rnorm(50), 6)
+)
+head(df)
+```
+
+#### Mahalanobis Distance
+
+```{r}
+result_mahal <- detect_multivariate_outliers(df, method = "mahalanobis", alpha = 0.975)
+head(result_mahal)
+```
+
+
+#### Minimum Covariance Determinant (MCD)
+
+```{r}
+result_mcd <- detect_multivariate_outliers(df, method = "mcd", alpha = 0.975)
+head(result_mcd)
+```
+
+
+#### Principal Component Analysis (PCA)
+
+```{r}
+result_pca <- detect_multivariate_outliers(df, method = "pca", alpha = 0.975)
+head(result_pca)
+```
+
+
+#### Example 2: Existing Dataset (mtcars)
+
+This example demonstrates detecting using a real dataset (mtcars) with three variables: mpg, hp, and wt.
+
+```{r}
+df_mtcars <- mtcars[, c("mpg", "hp", "wt" )]
+head(df_mtcars)
+```
+
+
+#### Mahalanobis Distance
+
+```{r}
+result_mahal <- detect_multivariate_outliers(df_mtcars, method = "mahalanobis")
+head(result_mahal)
+```
+
+#### Minimum Covariance Determinant (MCD)
+
+```{r}
+result_mcd <- detect_multivariate_outliers(df_mtcars, method = "mcd")
+head(result_mcd)
+```
+
+#### Principal Component Analysis (PCA)
+
+```{r}
+result_pca <- detect_multivariate_outliers(df_mtcars, method = "pca")
+head(result_pca)
+```
+
+
+
+
+
+
+
+
+
+
+
+

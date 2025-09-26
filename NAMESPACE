@@ -2,13 +2,10 @@
 
 export(detect_multivariate_outliers)
 export(plot_outliers)
-export(plot_outliers_pairwise)
 import(ggplot2)
 importFrom(Rcpp,sourceCpp)
 importFrom(cowplot,get_legend)
-importFrom(dplyr,"%>%")
 importFrom(gridExtra,grid.arrange)
-importFrom(plotly,plot_ly)
 importFrom(rlang,.data)
 importFrom(stats,cov)
 importFrom(stats,prcomp)
