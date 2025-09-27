@@ -25,7 +25,7 @@ use_testthat()
 
 # Multivariate Outlier Detection Package
 
-# Introduction
+## Introduction
 
 The purpose of this report is to present a draft and the test plan of an upcoming R package called "MOutliers." This package aims to identify and visualize outliers in multivariate data.
 
@@ -35,9 +35,9 @@ For these reasons, outlier detection is a key step in modern statistics and data
 
 The package is designed to include several useful components. It offers three distinct techniques for identifying outliers in multivariate data: Mahalanobis Distance, Minimum Covariance Determinant, and Principal Component Analysis-based distance.The program makes use of the Rcpp package's C++ integration, which speeds up computations and makes handling bigger datasets possible.Furthermore, the package incorporates pairwise plots that highlight possible outliers to improve the interpretability of results for those without a background in statistics. This report describes how to install the package, how to utilize its functions, and how to use the testthat framework to ensure that these functions are working properly.
 
-# Function Documentation
+## Function Documentation
 
-## Function: detect_multivariate_outliers()
+### Function: detect_multivariate_outliers()
 
 **Parameters**
 
@@ -69,7 +69,7 @@ The function returns a data frame that combines the original input dataset with 
 
 -   Outlier: TRUE if the observation is flagged as an outlier. Otherwise, FALSE.
 
-## Function: plot_outliers()
+### Function: plot_outliers()
 
 **Parameters**
 
@@ -97,44 +97,42 @@ A set of 2D scatterplots for each pair of variables in the dataset. Only works f
 
 \newpage
 
-# Installing
+## Installing
 
-The package can be installed directly from GitHub using the `devtools` package.  
+The package can be installed directly from GitHub using the `devtools` package. 
 
-```{r, eval = FALSE}
+```r
 # Install devtools if not already installed
 install.packages("devtools")
 
 # Install the MOutliers package from GitHub (with tests)
-devtools::install_github(
-  "SenuYasara/Multivariate_Outlier_Detection_R_Package",
+devtools::install_github("SenuYasara/Multivariate_Outlier_Detection_R_Package",
   INSTALL_opts = "--install-tests"
 )
 ```
 
 Once installed, the package can be loaded in R as follows:
 
-```{r, eval = FALSE}
+```r
 library(MOutliers)
 ```
 
 To run the included unit tests after installation:
 
-```{r, eval = FALSE}
+```r
 library(testthat)
 test_package("MOutliers")
 ```
 
-
-These tests confirm that the functions detect_multivariate_outliers() and plot_outliers() behave as expected, producing correct outputs and handling invalid inputs appropriately.
+These tests confirm that the functions `detect_multivariate_outliers()` and `plot_outliers()` behave as expected, producing correct outputs and handling invalid inputs appropriately.
 
 \newpage
 
-# Example Usage
+## Example Usage
 
-## Function: detect_multivariate_outliers()
+### Function: detect_multivariate_outliers()
 
-### Example 1: Simulated Data
+#### Example 1: Simulated Data
 
 This example demonstrates detecting multivariate outliers using simulated data.
 
@@ -171,7 +169,7 @@ result_pca <- detect_multivariate_outliers(df, method = "pca"
 head(result_pca)
 ```
 
-### Example 2: Existing Dataset (mtcars)
+#### Example 2: Existing Dataset (mtcars)
 
 This example demonstrates detecting multivariate outliers using a real dataset (mtcars) with three variables: mpg, hp, and wt.
 
@@ -203,9 +201,9 @@ head(result_pca)
 ```
 
 
-## Function: plot_outliers()
+### Function: plot_outliers()
 
-### Example: Existing Dataset (mtcars)
+#### Example: Existing Dataset (mtcars)
 
 This example demonstrates visualizing 2D scatterplots for each pair of variable in the dataset using a real dataset (mtcars) with three variables: mpg, hp, and wt.
 
@@ -223,11 +221,11 @@ plot_outliers(df_mtcars, method = "mcd", alpha = 0.975)
 
 \newpage
 
-# Use of C++ Functions in the Package
+## Use of C++ Functions in the Package
 
 The package includes two C++ functions and it calculate distances fast and efficient manner for multivariate data. These functions are implemented using Rcpp, which allows direct integration of C++ code with R. Using C++ improves performance, particularly when working with large datasets.
 
-## Function 1: `mahalanobis_cpp`
+### Function 1: mahalanobis_cpp
 
 The `mahalanobis_cpp` function calculates Mahalanobis distances for each observation in a numeric matrix. Mahalanobis distance is a multivariate measure of how far each observation is from the mean, taking into account correlations between variables.
 
@@ -258,9 +256,9 @@ The `mahalanobis_cpp` function calculates Mahalanobis distances for each observa
 -   Return the vector of squared Mahalanobis distances for all observations.
 
 
-## Function 2: pca_distances_cpp
+### Function 2: pca_distances_cpp
 
-The pca_distances_cpp function calculates squared Euclidean distances of observations from a specified center in PCA space. This is used to measure deviations from the mean in the space of principal components.
+The `pca_distances_cpp` function calculates squared Euclidean distances of observations from a specified center in PCA space. This is used to measure deviations from the mean in the space of principal components.
 
 **Key Details:**
 
@@ -287,11 +285,11 @@ The pca_distances_cpp function calculates squared Euclidean distances of observa
 
 \newpage
 
-# Testing
+## Testing
 
 To ensure that both functions are operating correctly and handling errors appropriately, they are tested using the testthat framework.
 
-## Tests for detect_multivariate_outliers()
+### Tests for detect_multivariate_outliers()
 
 **Input Validation:**
 
@@ -401,7 +399,7 @@ test_that("detect_multivariate_outliers errors with singular covariance matrix",
 })
 ```
 
-## Tests for plot_outliers()
+### Tests for plot_outliers()
 
 These tests ensure the plot_outliers() function works correctly and handles errors appropriately.
 
@@ -446,7 +444,7 @@ test_that("plot_outliers requires at least two columns", {
 
 -   Two-variable datasets: Generates plots using Mahalanobis or MCD methods without errors.
 
-```{r, echo=TRUE}
+```{r, echo=TRUE,fig.width=9, fig.height=6.5, fig.align='center'}
 test_that("plot_outliers runs with 2 variables (mahalanobis & mcd)", {
   skip_if_not_installed("ggplot2")
   skip_if_not_installed("gridExtra")
@@ -462,7 +460,7 @@ test_that("plot_outliers runs with 2 variables (mahalanobis & mcd)", {
 
 -   More than two variables: Generates multiple pairwise plots without errors.
 
-```{r, echo=TRUE}
+```{r, echo=TRUE, fig.width=7, fig.height=6.5, fig.align='center'}
 test_that("plot_outliers runs with >2 variables", {
   skip_if_not_installed("ggplot2")
   skip_if_not_installed("gridExtra")
@@ -482,7 +480,7 @@ test_that("plot_outliers runs with >2 variables", {
 
 -   Extreme points: Flags at least one outlier when an extreme value is added.
 
-```{r, echo=TRUE}
+```{r, echo=TRUE, fig.width=7, fig.height=6.5, fig.align='center'}
 test_that("plot_outliers flags at least one outlier when data includes an extreme point", {
   skip_if_not_installed("ggplot2")
   skip_if_not_installed("gridExtra")
@@ -518,7 +516,7 @@ test_that("plot_outliers errors with invalid method", {
 
 \newpage
 
-# Next Steps
+## Next Steps
 
 -   Have a second look on the function plot_outliers().
 

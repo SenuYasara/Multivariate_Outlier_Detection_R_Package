@@ -1,7 +1,7 @@
 
 # Multivariate Outlier Detection Package
 
-# Introduction
+## Introduction
 
 The purpose of this report is to present a draft and the test plan of an
 upcoming R package called “MOutliers.” This package aims to identify and
@@ -30,9 +30,9 @@ statistics. This report describes how to install the package, how to
 utilize its functions, and how to use the testthat framework to ensure
 that these functions are working properly.
 
-# Function Documentation
+## Function Documentation
 
-## Function: detect_multivariate_outliers()
+### Function: detect_multivariate_outliers()
 
 **Parameters**
 
@@ -70,7 +70,7 @@ dataset with the following additional columns:
 - Outlier: TRUE if the observation is flagged as an outlier. Otherwise,
   FALSE.
 
-## Function: plot_outliers()
+### Function: plot_outliers()
 
 **Parameters**
 
@@ -101,24 +101,43 @@ works for either Mahalanobis or MCD distances. Outlier are highlighted
 in red, while inliers are shown in black. The function also arranges all
 pairwise scatterplots into one frame.
 
-# Installing
+## Installing
 
 The package can be installed directly from GitHub using the `devtools`
 package.
 
+``` r
+# Install devtools if not already installed
+install.packages("devtools")
+
+# Install the MOutliers package from GitHub (with tests)
+devtools::install_github("SenuYasara/Multivariate_Outlier_Detection_R_Package",
+  INSTALL_opts = "--install-tests"
+)
+```
+
 Once installed, the package can be loaded in R as follows:
+
+``` r
+library(MOutliers)
+```
 
 To run the included unit tests after installation:
 
-These tests confirm that the functions detect_multivariate_outliers()
-and plot_outliers() behave as expected, producing correct outputs and
+``` r
+library(testthat)
+test_package("MOutliers")
+```
+
+These tests confirm that the functions `detect_multivariate_outliers()`
+and `plot_outliers()` behave as expected, producing correct outputs and
 handling invalid inputs appropriately.
 
-# Example Usage
+## Example Usage
 
-## Function: detect_multivariate_outliers()
+### Function: detect_multivariate_outliers()
 
-### Example 1: Simulated Data
+#### Example 1: Simulated Data
 
 This example demonstrates detecting multivariate outliers using
 simulated data.
@@ -184,7 +203,7 @@ head(result_pca)
 #> 6  1.71506499  1.51647060 3.1785118   FALSE
 ```
 
-### Example 2: Existing Dataset (mtcars)
+#### Example 2: Existing Dataset (mtcars)
 
 This example demonstrates detecting multivariate outliers using a real
 dataset (mtcars) with three variables: mpg, hp, and wt.
@@ -244,9 +263,9 @@ head(result_pca)
 #> Valiant           18.1 105 3.460 0.4647775   FALSE
 ```
 
-## Function: plot_outliers()
+### Function: plot_outliers()
 
-### Example: Existing Dataset (mtcars)
+#### Example: Existing Dataset (mtcars)
 
 This example demonstrates visualizing 2D scatterplots for each pair of
 variable in the dataset using a real dataset (mtcars) with three
@@ -257,16 +276,16 @@ variables: mpg, hp, and wt.
 plot_outliers(df_mtcars, method = "mahalanobis", alpha = 0.975)
 ```
 
-<img src="man/figures/README-unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
 # Minimum Covariance Determinant (MCD)
 plot_outliers(df_mtcars, method = "mcd", alpha = 0.975)
 ```
 
-<img src="man/figures/README-unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" style="display: block; margin: auto;" />
 
-# Use of C++ Functions in the Package
+## Use of C++ Functions in the Package
 
 The package includes two C++ functions and it calculate distances fast
 and efficient manner for multivariate data. These functions are
@@ -274,7 +293,7 @@ implemented using Rcpp, which allows direct integration of C++ code with
 R. Using C++ improves performance, particularly when working with large
 datasets.
 
-## Function 1: `mahalanobis_cpp`
+### Function 1: mahalanobis_cpp
 
 The `mahalanobis_cpp` function calculates Mahalanobis distances for each
 observation in a numeric matrix. Mahalanobis distance is a multivariate
@@ -315,10 +334,10 @@ account correlations between variables.
 - Return the vector of squared Mahalanobis distances for all
   observations.
 
-## Function 2: pca_distances_cpp
+### Function 2: pca_distances_cpp
 
-The pca_distances_cpp function calculates squared Euclidean distances of
-observations from a specified center in PCA space. This is used to
+The `pca_distances_cpp` function calculates squared Euclidean distances
+of observations from a specified center in PCA space. This is used to
 measure deviations from the mean in the space of principal components.
 
 **Key Details:**
@@ -347,12 +366,12 @@ measure deviations from the mean in the space of principal components.
 
 - Return the vector of squared distances for all observations.
 
-# Testing
+## Testing
 
 To ensure that both functions are operating correctly and handling
 errors appropriately, they are tested using the testthat framework.
 
-## Tests for detect_multivariate_outliers()
+### Tests for detect_multivariate_outliers()
 
 **Input Validation:**
 
@@ -472,7 +491,7 @@ test_that("detect_multivariate_outliers errors with singular covariance matrix",
 #> Test passed 🎉
 ```
 
-## Tests for plot_outliers()
+### Tests for plot_outliers()
 
 These tests ensure the plot_outliers() function works correctly and
 handles errors appropriately.
@@ -538,7 +557,7 @@ test_that("plot_outliers runs with 2 variables (mahalanobis & mcd)", {
 })
 ```
 
-<img src="man/figures/README-unnamed-chunk-26-1.png" width="100%" /><img src="man/figures/README-unnamed-chunk-26-2.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-23-1.png" width="100%" style="display: block; margin: auto;" /><img src="man/figures/README-unnamed-chunk-23-2.png" width="100%" style="display: block; margin: auto;" />
 
     #> Test passed 🎉
 
@@ -563,7 +582,7 @@ test_that("plot_outliers runs with >2 variables", {
 })
 ```
 
-<img src="man/figures/README-unnamed-chunk-27-1.png" width="100%" /><img src="man/figures/README-unnamed-chunk-27-2.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-24-1.png" width="100%" style="display: block; margin: auto;" /><img src="man/figures/README-unnamed-chunk-24-2.png" width="100%" style="display: block; margin: auto;" />
 
     #> Test passed 😀
 
@@ -590,7 +609,7 @@ test_that("plot_outliers flags at least one outlier when data includes an extrem
 })
 ```
 
-<img src="man/figures/README-unnamed-chunk-28-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-25-1.png" width="100%" style="display: block; margin: auto;" />
 
     #> Test passed 🥇
 
@@ -610,7 +629,7 @@ test_that("plot_outliers errors with invalid method", {
 #> Test passed 😀
 ```
 
-# Next Steps
+## Next Steps
 
 - Have a second look on the function plot_outliers().
 
