@@ -53,7 +53,7 @@ A character value specifying the detection method. Options include:
 
 -   "mcd": Minimum Covariance Determinant (robust method)
 
--   "pca": principal componentâbased Euclidean distances.
+-   "pca": principal component based Euclidean distances.
 
 Default is "mahalanobis".
 
