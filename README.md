@@ -13,10 +13,8 @@ including mistakes in data collection/recording, natural variation, or
 the representation of uncommon but valid data points. When it comes to
 statistics, detecting outliers is very important because their presence
 can influence statistical summaries, distort parameter estimates, and
-even reduce the reliability of predictive models.
-
-For these reasons, outlier detection is a key step in modern statistics
-and data science.
+even reduce the reliability of predictive models. For these reasons,
+outlier detection is a key step in modern statistics and data science.
 
 The package is designed to include several useful components. It offers
 three distinct techniques for identifying outliers in multivariate data:
@@ -161,8 +159,7 @@ head(df)
 ``` r
 # Mahalanobis Distance
 
-result_mahal <- detect_multivariate_outliers(df, method = "mahalanobis"
-                                             , alpha = 0.975)
+result_mahal <- detect_multivariate_outliers(df, method = "mahalanobis", alpha = 0.975)
 head(result_mahal)
 #>             x           y  Distance Outlier
 #> 1 -0.56047565  0.25331851 0.4151305   FALSE
@@ -176,8 +173,7 @@ head(result_mahal)
 ``` r
 # Minimum Covariance Determinant (MCD)
 
-result_mcd <- detect_multivariate_outliers(df, method = "mcd"
-                                           , alpha = 0.975)
+result_mcd <- detect_multivariate_outliers(df, method = "mcd", alpha = 0.975)
 head(result_mcd)
 #>             x           y  Distance Outlier
 #> 1 -0.56047565  0.25331851 0.4591213   FALSE
@@ -191,8 +187,7 @@ head(result_mcd)
 ``` r
 # Principal Component Analysis (PCA)
 
-result_pca <- detect_multivariate_outliers(df, method = "pca"
-                                           , alpha = 0.975)
+result_pca <- detect_multivariate_outliers(df, method = "pca", alpha = 0.975)
 head(result_pca)
 #>             x           y  Distance Outlier
 #> 1 -0.56047565  0.25331851 0.3621629   FALSE
@@ -223,8 +218,8 @@ head(df_mtcars)
 ``` r
 # Mahalanobis Distance
 
-result_mahal <- detect_multivariate_outliers(df_mtcars, 
-                                             method = "mahalanobis")
+result_mahal <- detect_multivariate_outliers(df_mtcars, method = "mahalanobis"
+                                             ,alpha = 0.975)
 head(result_mahal)
 #>                    mpg  hp    wt  Distance Outlier
 #> Mazda RX4         21.0 110 2.620 1.4554908   FALSE
@@ -238,7 +233,7 @@ head(result_mahal)
 ``` r
 # Minimum Covariance Determinant (MCD)
 
-result_mcd <- detect_multivariate_outliers(df_mtcars, method = "mcd")
+result_mcd <- detect_multivariate_outliers(df_mtcars, method = "mcd", alpha = 0.975)
 head(result_mcd)
 #>                    mpg  hp    wt  Distance Outlier
 #> Mazda RX4         21.0 110 2.620 1.4032515   FALSE
@@ -252,7 +247,7 @@ head(result_mcd)
 ``` r
 # Principal Component Analysis (PCA)
 
-result_pca <- detect_multivariate_outliers(df_mtcars, method = "pca")
+result_pca <- detect_multivariate_outliers(df_mtcars, method = "pca", alpha = 0.975)
 head(result_pca)
 #>                    mpg  hp    wt  Distance Outlier
 #> Mazda RX4         21.0 110 2.620 0.5460497   FALSE

@@ -29,9 +29,7 @@ use_testthat()
 
 The purpose of this report is to present a draft and the test plan of an upcoming R package called "MOutliers." This package aims to identify and visualize outliers in multivariate data.
 
-Outliers are data points that deviate from the rest of the data and do not fit into the overall trend. They may appear due to various reasons, including mistakes in data collection/recording, natural variation, or the representation of uncommon but valid data points. When it comes to statistics, detecting outliers is very important because their presence can influence statistical summaries, distort parameter estimates, and even reduce the reliability of predictive models.
-
-For these reasons, outlier detection is a key step in modern statistics and data science.
+Outliers are data points that deviate from the rest of the data and do not fit into the overall trend. They may appear due to various reasons, including mistakes in data collection/recording, natural variation, or the representation of uncommon but valid data points. When it comes to statistics, detecting outliers is very important because their presence can influence statistical summaries, distort parameter estimates, and even reduce the reliability of predictive models. For these reasons, outlier detection is a key step in modern statistics and data science.
 
 The package is designed to include several useful components. It offers three distinct techniques for identifying outliers in multivariate data: Mahalanobis Distance, Minimum Covariance Determinant, and Principal Component Analysis-based distance.The program makes use of the Rcpp package's C++ integration, which speeds up computations and makes handling bigger datasets possible.Furthermore, the package incorporates pairwise plots that highlight possible outliers to improve the interpretability of results for those without a background in statistics. This report describes how to install the package, how to utilize its functions, and how to use the testthat framework to ensure that these functions are working properly.
 
@@ -148,24 +146,21 @@ head(df)
 ```{r, echo=TRUE}
 # Mahalanobis Distance
 
-result_mahal <- detect_multivariate_outliers(df, method = "mahalanobis"
-                                             , alpha = 0.975)
+result_mahal <- detect_multivariate_outliers(df, method = "mahalanobis", alpha = 0.975)
 head(result_mahal)
 ```
 
 ```{r, echo=TRUE}
 # Minimum Covariance Determinant (MCD)
 
-result_mcd <- detect_multivariate_outliers(df, method = "mcd"
-                                           , alpha = 0.975)
+result_mcd <- detect_multivariate_outliers(df, method = "mcd", alpha = 0.975)
 head(result_mcd)
 ```
 
 ```{r, echo=TRUE}
 # Principal Component Analysis (PCA)
 
-result_pca <- detect_multivariate_outliers(df, method = "pca"
-                                           , alpha = 0.975)
+result_pca <- detect_multivariate_outliers(df, method = "pca", alpha = 0.975)
 head(result_pca)
 ```
 
@@ -181,22 +176,22 @@ head(df_mtcars)
 ```{r, echo=TRUE}
 # Mahalanobis Distance
 
-result_mahal <- detect_multivariate_outliers(df_mtcars, 
-                                             method = "mahalanobis")
+result_mahal <- detect_multivariate_outliers(df_mtcars, method = "mahalanobis"
+                                             ,alpha = 0.975)
 head(result_mahal)
 ```
 
 ```{r, echo=TRUE}
 # Minimum Covariance Determinant (MCD)
 
-result_mcd <- detect_multivariate_outliers(df_mtcars, method = "mcd")
+result_mcd <- detect_multivariate_outliers(df_mtcars, method = "mcd", alpha = 0.975)
 head(result_mcd)
 ```
 
 ```{r, echo=TRUE}
 # Principal Component Analysis (PCA)
 
-result_pca <- detect_multivariate_outliers(df_mtcars, method = "pca")
+result_pca <- detect_multivariate_outliers(df_mtcars, method = "pca", alpha = 0.975)
 head(result_pca)
 ```
 
