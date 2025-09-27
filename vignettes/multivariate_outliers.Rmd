@@ -73,7 +73,7 @@ head(result_pca)
 
 #### Example 2: Existing Dataset (mtcars)
 
-This example demonstrates detecting using a real dataset (mtcars) with three variables: mpg, hp, and wt.
+This example demonstrates detecting multivariate outliers using a real dataset (mtcars) with three variables: mpg, hp, and wt.
 
 ```{r}
 df_mtcars <- mtcars[, c("mpg", "hp", "wt" )]
