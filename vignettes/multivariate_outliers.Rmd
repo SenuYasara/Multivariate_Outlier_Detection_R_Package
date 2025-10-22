@@ -24,21 +24,53 @@ Outliers are unusual data points that are different from the rest of the data. I
 
 MOutliers package provides tools to detect and visualize multivariate outliers using robust statistical methods:
 
-### 1. detect_multivariate_outliers()
-
-Detects outliers based on:
-
 -   Mahalanobis distance
 
 -   Minimum Covariance Determinant (MCD)
 
 -   Principal Component Analysis (PCA)
 
-## Detecting Outliers
+## Function Documentation
+
+### Function: detect_multivariate_outliers()
+
+**Parameters**
+
+**1. data (Required)**
+
+A numeric dataframe that contains the variables of interest. Each row corresponds to one observation and each column to one variable.
+
+**2. method (Optional)**
+
+A character value specifying the detection method. Options include:
+
+-   "mahalanobis": classical Mahalanobis distance
+
+-   "mcd": Minimum Covariance Determinant (robust method)
+
+-   "pca": principal component based Euclidean distances.
+
+Default is "mahalanobis".
+
+**3. alpha (Optional)**
+
+A numeric value representing the cutoff level for detecting outliers, based on the quantiles of the chi-squared distribution. Default is 0.975.
+
+**Returns**
+
+The function returns a data frame that combines the original input dataset with the following additional columns:
+
+-   Distance: the computed distance value for each observation (depends on the chosen method).
+
+-   Outlier: TRUE if the observation is flagged as an outlier. Otherwise, FALSE.
+
+### Example Usage
 
 #### Example 1: Simulated Data
 
-```{r}
+This example demonstrates detecting multivariate outliers using simulated data.
+
+```{r, echo=TRUE}
 set.seed(123)
 df <- data.frame(
   x = c(rnorm(50), 6),
@@ -47,25 +79,23 @@ df <- data.frame(
 head(df)
 ```
 
-#### Mahalanobis Distance
 
-```{r}
+```{r,echo=TRUE}
+# Mahalanobis Distance
 result_mahal <- detect_multivariate_outliers(df, method = "mahalanobis", alpha = 0.975)
 head(result_mahal)
 ```
 
 
-#### Minimum Covariance Determinant (MCD)
-
-```{r}
+```{r,echo=TRUE}
+# Minimum Covariance Determinant (MCD)
 result_mcd <- detect_multivariate_outliers(df, method = "mcd", alpha = 0.975)
 head(result_mcd)
 ```
 
 
-#### Principal Component Analysis (PCA)
-
-```{r}
+```{r,echo=TRUE}
+# Principal Component Analysis (PCA)
 result_pca <- detect_multivariate_outliers(df, method = "pca", alpha = 0.975)
 head(result_pca)
 ```
@@ -81,28 +111,85 @@ head(df_mtcars)
 ```
 
 
-#### Mahalanobis Distance
-
-```{r}
-result_mahal <- detect_multivariate_outliers(df_mtcars, method = "mahalanobis")
+```{r,echo=TRUE}
+# Mahalanobis Distance
+result_mahal <- detect_multivariate_outliers(df_mtcars, method = "mahalanobis",alpha = 0.975)
 head(result_mahal)
 ```
 
-#### Minimum Covariance Determinant (MCD)
 
-```{r}
-result_mcd <- detect_multivariate_outliers(df_mtcars, method = "mcd")
+```{r,echo=TRUE}
+# Minimum Covariance Determinant (MCD)
+result_mcd <- detect_multivariate_outliers(df_mtcars, method = "mcd",alpha = 0.975)
 head(result_mcd)
 ```
 
-#### Principal Component Analysis (PCA)
 
-```{r}
-result_pca <- detect_multivariate_outliers(df_mtcars, method = "pca")
+```{r,echo=TRUE}
+# Principal Component Analysis (PCA)
+result_pca <- detect_multivariate_outliers(df_mtcars, method = "pca",alpha = 0.975)
 head(result_pca)
 ```
 
 
+### Function: plot_outliers()
+
+**Parameters**
+
+**1. data (Required)**
+
+A numeric dataframe with atleast two continous variables.
+
+**2. method (Optional)**
+
+A character value specifying the outlier detection approach. Options include:
+
+-   "mahalanobis": classical Mahalanobis distance
+
+-   "mcd": Minimum Covariance Determinant (robust method)
+
+Default is "mahalanobis".
+
+**3. alpha (Optional)**
+
+A numeric value specifying the cutoff quantile for identifying outliers from the chi-squared distribution. Default is 0.975.
+
+**Returns**
+
+A set of 2D scatterplots for each pair of variables in the dataset. Only works for either Mahalanobis or MCD distances. Outlier are highlighted in red, while inliers are shown in black. The function also arranges all pairwise scatterplots into one frame.
+
+### Example Usage
+
+#### Example 1: Simulated Data
+
+This example demonstrates visualizing 2D scatterplots for each pair of variable in the dataset using simulated data.
+
+```{r, echo=TRUE, fig.width=6.5, fig.height=6.5, fig.align='center'}
+# Mahalanobis Distance
+plot_outliers(df, method = "mahalanobis", alpha = 0.975)
+```
+
+
+```{r, echo=TRUE, fig.width=6.5, fig.height=6.5, fig.align='center'}
+# Minimum Covariance Determinant (MCD)
+plot_outliers(df, method = "mcd", alpha = 0.975)
+```
+
+
+#### Example 2: Existing Dataset (mtcars)
+
+This example demonstrates visualizing 2D scatterplots for each pair of variable in the dataset using a real dataset (mtcars) with three variables: mpg, hp, and wt.
+
+```{r, echo=TRUE, fig.width=6.5, fig.height=6.5, fig.align='center'}
+# Mahalanobis Distance
+plot_outliers(df_mtcars, method = "mahalanobis", alpha = 0.975)
+```
+
+
+```{r, echo=TRUE, fig.width=6.5, fig.height=6.5, fig.align='center'}
+# Minimum Covariance Determinant (MCD)
+plot_outliers(df_mtcars, method = "mcd", alpha = 0.975)
+```
 
 
 

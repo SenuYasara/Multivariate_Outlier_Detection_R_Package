@@ -1,59 +1,42 @@
 # Tests for detect_multivariate_outliers()
 
+methods <- c("mahalanobis", "mcd", "pca")
+
 test_that("detect_multivariate_outliers rejects non-numeric data", {
   df <- data.frame(x = 1:5, y = letters[1:5])
-  expect_error(
-    detect_multivariate_outliers(df, method = "mahalanobis"),
-    "must be numeric"
-  )
+  for (m in methods) {
+    expect_error(
+      detect_multivariate_outliers(df, method = m),
+      "must be numeric"
+    )
+  }
 })
 
 test_that("detect_multivariate_outliers rejects datasets with NA values", {
   df <- data.frame(x = rnorm(10), y = rnorm(10))
   df[1, 1] <- NA
-  expect_error(
-    detect_multivariate_outliers(df, method = "mahalanobis"),
-    "missing values"
-  )
+  for (m in methods) {
+    expect_error(
+      detect_multivariate_outliers(df, method = m),
+      "missing values"
+    )
+  }
 })
 
-test_that("detect_multivariate_outliers works with mahalanobis method", {
-  set.seed(123)
-  df <- data.frame(x = rnorm(50), y = rnorm(50))
-  result <- detect_multivariate_outliers(df, method = "mahalanobis")
-
-  expect_s3_class(result, "data.frame")
-  expect_true(all(c("Distance", "Outlier") %in% names(result)))
-  expect_equal(nrow(result), nrow(df))
+test_that("detect_multivariate_outliers rejects datasets with only one variable", {
+  df <- data.frame(x = rnorm(10))
+  for (m in methods) {
+    expect_error(
+      detect_multivariate_outliers(df, method = m),
+      "at least two numeric variables"
+    )
+  }
 })
 
-test_that("detect_multivariate_outliers works with mcd method", {
-  set.seed(123)
-  df <- data.frame(x = rnorm(30), y = rnorm(30))
-  result <- detect_multivariate_outliers(df, method = "mcd")
-
-  expect_s3_class(result, "data.frame")
-  expect_equal(nrow(result), nrow(df))
-})
-
-test_that("detect_multivariate_outliers works with pca method", {
-  set.seed(123)
-  df <- data.frame(x = rnorm(40), y = rnorm(40), z = rnorm(40))
-  result <- detect_multivariate_outliers(df, method = "pca")
-
-  expect_s3_class(result, "data.frame")
-  expect_equal(nrow(result), nrow(df))
-})
-
-test_that("detect_multivariate_outliers throws error for invalid method", {
-  df <- data.frame(x = rnorm(10), y = rnorm(10))
-  expect_error(detect_multivariate_outliers(df, method = "invalid"), "Invalid method")
-})
-
-test_that("detect_multivariate_outliers errors with singular covariance matrix", {
+test_that("detect_multivariate_outliers errors with singular covariance matrix (Mahalanobis only)", {
   set.seed(123)
   df <- data.frame(x = rnorm(20), y = rnorm(20))
-  df$dup <- df$x + 2 * df$y  # Linear dependency makes covariance singular
+  df$dup <- df$x + 2 * df$y  # Linear dependency
 
   expect_error(
     detect_multivariate_outliers(df, method = "mahalanobis"),
@@ -61,24 +44,42 @@ test_that("detect_multivariate_outliers errors with singular covariance matrix",
   )
 })
 
+test_that("detect_multivariate_outliers works correctly for all valid methods", {
+  set.seed(123)
+  df <- data.frame(x = rnorm(50), y = rnorm(50), z = rnorm(50))
+  for (m in methods) {
+    result <- detect_multivariate_outliers(df, method = m)
+    expect_s3_class(result, "data.frame")
+    expect_true(all(c("Distance", "Outlier") %in% names(result)))
+    expect_equal(nrow(result), nrow(df))
+  }
+})
 
+test_that("detect_multivariate_outliers throws error for invalid method", {
+  df <- data.frame(x = rnorm(10), y = rnorm(10))
+  expect_error(
+    detect_multivariate_outliers(df, method = "invalid"),
+    "Invalid method"
+  )
+})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+test_that("detect_multivariate_outliers errors with invalid alpha", {
+  df <- data.frame(x = rnorm(10), y = rnorm(10))
+  for (m in methods) {
+    expect_error(
+      detect_multivariate_outliers(df, method = m, alpha = -0.1),
+      "'alpha' must be"
+    )
+    expect_error(
+      detect_multivariate_outliers(df, method = m, alpha = 1.5),
+      "'alpha' must be"
+    )
+    expect_error(
+      detect_multivariate_outliers(df, method = m, alpha = "abc"),
+      "'alpha' must be"
+    )
+  }
+})
 
 
 

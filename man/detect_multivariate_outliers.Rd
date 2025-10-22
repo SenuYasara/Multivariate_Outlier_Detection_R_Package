@@ -21,3 +21,16 @@ Detects multivariate outliers using Mahalanobis, Minimum Covariance Determinant 
 Supports robust detection by computing distance scores for each observation and comparing them against
 a chi-squared cutoff at a specified significance level.
 }
+\examples{
+df_mtcars <- mtcars[, c("mpg", "hp", "wt" )]
+head(df_mtcars)
+
+## Mahalanobis Distance
+result_mahal <- detect_multivariate_outliers(df_mtcars, method = "mahalanobis", alpha = 0.975)
+
+## Minimum Covariance Determinant (MCD)
+result_mcd <- detect_multivariate_outliers(df_mtcars, method = "mcd", alpha = 0.975)
+
+## Principal Component Analysis (PCA)
+result_pca <- detect_multivariate_outliers(df_mtcars, method = "pca", alpha = 0.975)
+}
