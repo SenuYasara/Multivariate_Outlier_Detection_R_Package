@@ -38,6 +38,11 @@ plot_outliers <- function(data, method = c("mahalanobis", "mcd"), alpha = 0.975)
   # need at least two numeric columns
   if (ncol(data) < 2) stop("Need at least two numeric columns")
 
+  # check alpha
+  if (!is.numeric(alpha) || length(alpha) != 1 || alpha <= 0 || alpha >= 1) {
+    stop("'alpha' must be a single numeric value between 0 and 1")
+  }
+
   n <- nrow(data)
   p <- ncol(data)
   dists <- numeric(n)
@@ -47,7 +52,7 @@ plot_outliers <- function(data, method = c("mahalanobis", "mcd"), alpha = 0.975)
     data_minus_i <- data[-i, , drop = FALSE] # For each observation i, remove that observation from the dataset.
 
     if (method == "mahalanobis") {
-      mu <- colMeans(data_minus_i) # Compute the mean and covariance from the other n−1 observations.
+      mu <- colMeans(data_minus_i) # Compute the mean and covariance from the other nâ1 observations.
       cov_matrix <- cov(data_minus_i)
 
     } else if (method == "mcd") {
@@ -103,3 +108,4 @@ plot_outliers <- function(data, method = c("mahalanobis", "mcd"), alpha = 0.975)
     heights = c(10, 1)
   )
 }
+
