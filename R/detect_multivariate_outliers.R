@@ -11,6 +11,19 @@
 #' @return A data frame combining the original input data with distances and outlier flags.
 #' @importFrom stats cov prcomp qchisq
 #' @export
+#' @examples
+#'df_mtcars <- mtcars[, c("mpg", "hp", "wt" )]
+#'head(df_mtcars)
+#'
+#'## Mahalanobis Distance
+#'result_mahal <- detect_multivariate_outliers(df_mtcars, method = "mahalanobis", alpha = 0.975)
+#'
+#'## Minimum Covariance Determinant (MCD)
+#'result_mcd <- detect_multivariate_outliers(df_mtcars, method = "mcd", alpha = 0.975)
+#'
+#'## Principal Component Analysis (PCA)
+#'result_pca <- detect_multivariate_outliers(df_mtcars, method = "pca", alpha = 0.975)
+
 detect_multivariate_outliers <- function(data, method = "mahalanobis", alpha = 0.975) {
   # must be numeric
   if (!all(sapply(data, is.numeric))) {
@@ -20,6 +33,16 @@ detect_multivariate_outliers <- function(data, method = "mahalanobis", alpha = 0
   # must not contain missing values
   if (anyNA(data)) {
     stop("Dataset cannot contain missing values.")
+  }
+
+  # must have at least two variables
+  if (ncol(data) < 2) {
+    stop("Dataset must have at least two numeric variables for multivariate outlier detection.")
+  }
+
+  # check alpha
+  if (!is.numeric(alpha) || length(alpha) != 1 || alpha <= 0 || alpha >= 1) {
+    stop("'alpha' must be a single numeric value between 0 and 1")
   }
 
   n <- nrow(data)
@@ -80,3 +103,4 @@ detect_multivariate_outliers <- function(data, method = "mahalanobis", alpha = 0
 
   return(as.data.frame(result))
 }
+
